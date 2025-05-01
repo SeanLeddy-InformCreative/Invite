@@ -8,14 +8,15 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f0f0f0;
+            background-color: #404040;
             margin: 0;
+            font-family: Helvetica, Arial, sans-serif;
         }
 
         .envelope {
             position: relative;
-            width: 300px;
-            height: 200px;
+            width: 400px;
+            height: 300px;
             cursor: pointer;
             transform-style: preserve-3d;
             transition: transform 1s;
@@ -30,44 +31,49 @@
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
-        }
-
-        .front {
             background-color: #fff;
             border: 2px solid #000;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-family: Arial, sans-serif;
+        }
+
+        .front .recipient-name {
+            color: #0066cc;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .front .click-text {
+            font-size: 18px;
         }
 
         .back {
-            background-color: #fff;
-            border: 2px solid #000;
             transform: rotateY(180deg);
         }
 
         .letter {
             position: absolute;
-            width: 280px;
-            height: 180px;
+            width: 380px;
+            height: 280px;
             background-color: #fff;
-            padding: 20px;
+            padding: 30px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             opacity: 0;
-            transition: transform 0.5s, opacity 0.5s;
-            transform: translateY(20px);
+            transition: all 1s;
+            transform: translateY(0) rotateY(180deg);
         }
 
         .letter.show {
             opacity: 1;
-            transform: translateY(-100px);
+            transform: translateY(-150px) rotateY(0);
         }
 
         .flap {
             position: absolute;
             width: 100%;
-            height: 100px;
+            height: 150px;
             background-color: #fff;
             border: 2px solid #000;
             transform-origin: top;
@@ -77,12 +83,29 @@
         .envelope.open .flap {
             transform: rotateX(-180deg);
         }
+
+        .rsvp-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background-color: #0066cc;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .rsvp-button:hover {
+            background-color: #0052a3;
+        }
     </style>
 </head>
 <body>
     <div class="envelope" onclick="openEnvelope()">
         <div class="front">
-            <p>Click to open</p>
+            <div class="recipient-name" id="front-name">[name]</div>
+            <div class="click-text">Click to Open</div>
         </div>
         <div class="back">
             <div class="flap"></div>
@@ -90,6 +113,7 @@
                 <h2>Dear <span id="guest-name">[name]</span>,</h2>
                 <p>You are personally invited to attend MEDevice Boston 2025.</p>
                 <p>The event has been reimagined into a fully curated event experience that is Engineered to Advance your business.</p>
+                <a href="https://www.medeviceboston.com/en/attend/why-attend.html" class="rsvp-button" target="_blank">Why Attend</a>
             </div>
         </div>
     </div>
@@ -107,9 +131,9 @@
             }
         }
 
-        // Function to set recipient name
         function setRecipientName(name) {
             document.getElementById('guest-name').textContent = name;
+            document.getElementById('front-name').textContent = name;
         }
 
         // Example usage:
